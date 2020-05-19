@@ -3,6 +3,20 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+// get .class from doc
+let containerCards = document.querySelector('.cards');
+
+// axios.get function
+axios.get ('https://api.github.com/users/sbolans9')
+  .then(items => {
+    containerCards.appendChild(card(items.data));
+    for(let i = 0; i<followersArray.length; i++){
+      axios.get(followersArray[i])
+        .then(items => {
+          containerCards.appendChild(card(items.data));
+        })
+      }
+  })
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,7 +42,15 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['https://api.github.com/users/tetondan','https://api.github.com/users/dustinmyers','https://api.github.com/users/justsml','https://api.github.com/users/luishrd','https://api.github.com/users/bigknell',];
+/*
+  List of LS Instructors Github username's:
+    tetondan
+    dustinmyers
+    justsml
+    luishrd
+    bigknell
+*/
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +71,58 @@ const followersArray = [];
       </div>
     </div>
 */
+function card(arr){
+ // Creating Tags
+ divCard = document.createElement('div');
+ img = document.createElement('img');
+ divCardInfo = document.createElement('div');
+ cardInfoH3 =  document.createElement('h3');
+ cardInfoP1 = document.createElement('p');
+ cardInfoP2 = document.createElement('p');
+ cardInfoP3 = document.createElement('p');
+ cardInfoA = document.createElement('a');
+ cardInfoP4 = document.createElement('p');
+ cardInfoP5 = document.createElement('p');
+ cardInfoP6 = document.createElement('p');
+
+ //Adding Class Names
+ divCard.classList.add('card');
+ divCardInfo.classList.add('card-info');
+ cardInfoH3.classList.add('name');
+ cardInfoP1.classList.add('username');
+
+
+ // Placing tags into place
+ divCard.appendChild(img);
+ divCard.appendChild(divCardInfo);
+ divCardInfo.appendChild(cardInfoH3);
+ divCardInfo.appendChild(cardInfoP1); 
+ divCardInfo.appendChild(cardInfoP2);
+ divCardInfo.appendChild(cardInfoP3);
+ cardInfoP3.appendChild(cardInfoA);
+ divCardInfo.appendChild(cardInfoP4);
+ divCardInfo.appendChild(cardInfoP5);
+ divCardInfo.appendChild(cardInfoP6);
+
+//Add data tags
+  img.src = arr.avatar_url;
+  cardInfoH3.textContent = arr.name;
+  cardInfoP1.textContent = arr.login;
+  cardInfoP2.textContent = `Location: ${arr.location}`;
+  cardInfoP3.textContent = 'Profile:';
+  cardInfoA.href = arr.html_login;
+  cardInfoA.textContent = arr.html_login;
+  cardInfoP4.textContent = `Followers: ${arr.followers}`;
+  cardInfoP5.textContent = `Following: ${arr.following}`;
+  cardInfoP6.textContent = `Bio ${arr.bio}`;
+
+  // return function
+  return divCard
+}
+
+
+
+
 
 /*
   List of LS Instructors Github username's:
